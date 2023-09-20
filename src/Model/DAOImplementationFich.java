@@ -27,7 +27,7 @@ public class DAOImplementationFich implements DAO {
     }
 
     @Override
-    public void ConsultUnidadDidactica(UnidadDidactica unidadDidactica) throws ExceptionManager {
+    public boolean ConsultUnidadDidactica(UnidadDidactica unidadDidactica) throws ExceptionManager {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

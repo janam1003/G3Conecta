@@ -21,7 +21,7 @@ public interface DAO {
     public void createConvocatoriaExamen(ConvocatoriaExamen convocatoriaExamen) throws ExceptionManager;
 
     // Method to consult (retrieve) a UnidadDidactica object.
-    public void ConsultUnidadDidactica(UnidadDidactica unidadDidactica) throws ExceptionManager;
+    public boolean ConsultUnidadDidactica(UnidadDidactica unidadDidactica) throws ExceptionManager;
 
     // Method to consult (retrieve) a ConvocatoriaExamen object.
     public void ConsultConvocatoriaExamen(ConvocatoriaExamen convocatoriaExamen) throws ExceptionManager;

@@ -6,12 +6,18 @@ import Classes.UnidadDidactica;
 import Exceptions.ExceptionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
  * @author Janam
  */
 public class DAOImplementationDB implements DAO {
+
+    private Connection con;
+    private PreparedStatement stmt;
+    private ConnectionOpenClose occ = new ConnectionOpenClose();
 
     @Override
     public void createUnidadDidactica(UnidadDidactica unidadDidactica) throws ExceptionManager {
@@ -29,29 +35,33 @@ public class DAOImplementationDB implements DAO {
     }
 
     @Override
-    public void ConsultUnidadDidactica(UnidadDidactica unidadDidactica) throws ExceptionManager {
-        private Connection con;
-	private PreparedStatement stmt;
-	private OpenCloseConnection occ = new OpenCloseConnection();
+    public boolean ConsultUnidadDidactica(UnidadDidactica unidadDidactica) throws ExceptionManager {
+        boolean exists = false;
         final String queryUnidad = "Select id from unidad where id=?";
 
+        con = occ.openConnection();
 
-		con = occ.openConnection();
-		try {
-			stmt = con.prepareStatement(queryUnidad);
-			stmt.setString(1, unidadDidactica.getId());
-			ResultSet rs = stmt.executeQuery();
-			while (rs.next()) {
-				id = rs.getInt("user_id");
-			}
-		} catch (SQLException e) {
-			String error = "Error logging in";
-			MyException er = new MyException(error);
-			throw er;
+        try {
+            stmt = con.prepareStatement(queryUnidad);
+            stmt.setInt(1, unidadDidactica.getId());
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                if ( unidadDidactica.getId() == rs.getInt("id")) {
+                    exists = true;
+                }
+            }
+            
+        } catch (SQLException e) {
+            String error = "Error checking if the Unit exists or not";
+            ExceptionManager er = new ExceptionManager(error);
+            throw er;
 
-		}
-		occ.closeConnection(stmt, con);
-		return unidadDidactida;
+        }
+        try{
+        occ.closeConnection(stmt, con);
+                }catch(SQLException e){}
+        
+        return exists;
     }
 
     @Override
