@@ -70,8 +70,8 @@ public class Enunciado {
     public void setDatos(int id) {
 
         this.id = id;
+        this.descripcion = Util.introducirCadena("Insert the description: ");
         this.disponible = Util.esBoolean();
-        this.descripcion = Util.introducirCadena("Insert the movement description: ");
         this.ruta = "ruta";
 
         char x = Util.leerChar("Set your nivel type in A for Alta, M for Media"

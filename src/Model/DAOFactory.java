@@ -17,7 +17,7 @@ public class DAOFactory {
      */
     public static DAO getModel() throws UnknownModelTypeException {
 
-        switch (ResourceBundle.getBundle("G3Conecta.Model/config").getString("MODEL")) {
+        switch (ResourceBundle.getBundle("Model.config").getString("MODEL")) {
 
             case "FILE":
 

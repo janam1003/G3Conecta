@@ -74,10 +74,10 @@ public class Controller {
     public void run(DAO model) throws ExceptionManager {
 
         int opt;
-        
+
         do {
             opt = menuListadosEnunciado();
-            
+
             switch (opt) {
                 case 1:
                     createUnidadDidactica(model);
@@ -106,11 +106,13 @@ public class Controller {
                 case 7:
                     ConsultConvocatoriasUD(model);
                     break;
-
+                case 8:
+                    System.out.println("Good bye");
+                    break;
 
             }
 
-        } while (opt != 7);
+        } while (opt != 8);
     }
 
     private static int menuListadosEnunciado() {
@@ -121,8 +123,9 @@ public class Controller {
                 + "4: Consult UnidadDidactica.\n\t"
                 + "5: Consult EnunciadosUD.\n\t"
                 + "6: Consult ConvocatoriaExamen.\n\t"
-                + "7: Consult ConvocatoriasUD.\n\t");
-        return Util.leerInt("Introduce un número del 1 al 7: ", 1, 7);
+                + "7: Consult ConvocatoriasUD.\n\t"
+                + "8: Exit.\n\t");
+        return Util.leerInt("Introduce un número del 1 al 8: ", 1, 8);
     }
 
 }
