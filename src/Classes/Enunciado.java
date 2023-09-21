@@ -69,31 +69,26 @@ public class Enunciado {
 
     public void setDatos(int id) {
 
-        this.id = id;
         this.descripcion = Util.introducirCadena("Insert the description: ");
-        this.disponible = Util.esBoolean();
-        this.ruta = "ruta";
 
         char x = Util.leerChar("Set your nivel type in A for Alta, M for Media"
-                + "B for Baja: ", 'A', 'M', 'B');
+                + " B for Baja: ", 'A', 'M', 'B');
 
         switch (x) {
-
             case 'A':
-                this.nivel = DificultadType.ALTA;
+                nivel = DificultadType.ALTA;
                 break;
-
             case 'M':
-                this.nivel = DificultadType.MEDIA;
+                nivel = DificultadType.MEDIA;
                 break;
-
             case 'B':
-                this.nivel = DificultadType.BAJA;
+                nivel = DificultadType.BAJA;
                 break;
-
         }
 
-        this.unidadDidacticas = unidadDidacticas;
+        this.ruta = Util.introducirCadena("Ruta: ");
+
+        this.disponible = Util.esBoolean("Is it available? ( Enter 'true' or 'false') | ( 'si' or 'no': ");
 
     }
 

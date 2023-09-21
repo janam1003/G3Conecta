@@ -168,7 +168,7 @@ public class DAOImplementationFich implements DAO {
 
         } else {
 
-            ExceptionManager e = new ExceptionManager("Thhe file doesn't exist");
+            ExceptionManager e = new ExceptionManager("The file doesn't exist");
 
             throw e;
         }
