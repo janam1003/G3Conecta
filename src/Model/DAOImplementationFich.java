@@ -4,7 +4,7 @@ import Classes.ConvocatoriaExamen;
 import Classes.Enunciado;
 import Classes.UnidadDidactica;
 import Exceptions.ExceptionManager;
-import Utils.MyObjectOutputStream;
+import Util.MyObjectOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Objects;
-import utils.Util;
+import Util.Util;
 
 /**
  *

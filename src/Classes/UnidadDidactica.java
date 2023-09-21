@@ -1,6 +1,6 @@
 package Classes;
 
-import utils.Util;
+import Util.Util;
 
 /**
  *
