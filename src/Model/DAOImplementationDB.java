@@ -28,12 +28,80 @@ public class DAOImplementationDB implements DAO {
 
     @Override
     public void createUnidadDidactica(UnidadDidactica unidadDidactica) throws ExceptionManager {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+          con = conection.openConnection();
+
+        try {
+            final String createUnidadSQL = "INSERT INTO unidad VALUES (id, acronimo, titulo, evaluacion, descripcion(?, ?, ?, ?, ?)";
+            stmt = con.prepareStatement(createUnidadSQL);
+            stmt.setString(2, unidadDidactica.getAcronimo());
+            stmt.setString(3, unidadDidactica.getTitulo());
+            stmt.setString(4, unidadDidactica.getEvaluacion());
+            stmt.setString(5, unidadDidactica.getDescripcion());
+            stmt.executeUpdate();
+            
+            
+            stmt.close();
+
+        } catch (SQLException e) {
+
+            String error = "This UnidadDidactica already exist";
+            ExceptionManager exp = new ExceptionManager(error);
+            throw exp;
+        }
     }
 
     @Override
     public void createEnunciado(Enunciado enunciado) throws ExceptionManager {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+          con = conection.openConnection();
+
+        try {
+            final String createUnidadSQL = "INSERT INTO unidad VALUES (id, acronimo, titulo, evaluacion, descripcion(?, ?, ?, ?, ?)";
+            stmt = con.prepareStatement(createUnidadSQL);
+            stmt.setString(2, unidadDidactica.getAcronimo());
+            stmt.setString(3, unidadDidactica.getTitulo());
+            stmt.setString(4, unidadDidactica.getEvaluacion());
+            stmt.setString(5, unidadDidactica.getDescripcion());
+            stmt.executeUpdate();
+            
+            
+            stmt.close();
+
+        } catch (SQLException e) {
+
+            String error = "This UnidadDidactica already exist";
+            ExceptionManager exp = new ExceptionManager(error);
+            throw exp;
+        }
+
+    }
+
+    @Override
+    public void createEnunciado(Enunciado enunciado) throws ExceptionManager {
+
+        try {
+            final String createUnidadSQL = "INSERT INTO enunciado VALUES (id, descripcio, disponible, ruta, nivel(?, ?, ?, ?, ?)";
+            stmt = con.prepareStatement(createUnidadSQL);
+            stmt.setString(2, enunciado.getDescripcion());
+            stmt.setBoolean(3, enunciado.isDisponible());
+            stmt.setString(4, enunciado.getRuta());
+            Enunciado getEnunciado = null;
+            DificultadType dificultadType;
+            dificultadType = null;
+            for (DificultadType a : DificultadType.values()) {
+                if (a.ordinal() == getInt("nivel")) {
+                    dificultadType = a;
+                }
+            }
+            getEnunciado.setNivel(dificultadType);
+            stmt.executeUpdate();
+            stmt.close();
+
+        } catch (SQLException e) {
+
+            String error = "This Enunciado already exist";
+            ExceptionManager exp = new ExceptionManager(error);
+            throw exp;
+        }
     }
 
     @Override
@@ -42,12 +110,37 @@ public class DAOImplementationDB implements DAO {
     }
 
     @Override
-    public void ConsultUnidadDidactica(UnidadDidactica unidadDidactica) throws ExceptionManager {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean ConsultUnidadDidactica(UnidadDidactica unidadDidactica) throws ExceptionManager {
+        boolean exists = false;
+        final String queryUnidad = "Select id from unidad where id=?";
+
+        con = conection.openConnection();
+
+        try {
+            stmt = con.prepareStatement(queryUnidad);
+            stmt.setInt(1, unidadDidactica.getId());
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                if ( unidadDidactica.getId() == rs.getInt("id")) {
+                    exists = true;
+                }
+            }
+            
+        } catch (SQLException e) {
+            String error = "Error checking if the Unit exists or not";
+            ExceptionManager er = new ExceptionManager(error);
+            throw er;
+
+        }
+        try{
+        conection.closeConnection(stmt, con);
+                }catch(SQLException e){}
+        
+        return exists;
     }
 
     @Override
-    public void ConsultConvocatoriaExamen(ConvocatoriaExamen convocatoriaExamen) throws ExceptionManager {
+    public boolean ConsultConvocatoriaExamen(ConvocatoriaExamen convocatoriaExamen) throws ExceptionManager {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

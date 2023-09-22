@@ -40,7 +40,62 @@ public class DAOImplementationFich implements DAO {
 
     @Override
     public void createConvocatoriaExamen(ConvocatoriaExamen convocatoriaExamen) throws ExceptionManager {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            FileOutputStream fos = null;
+
+        MyObjectOutputStream moos = null;
+
+        ObjectOutputStream oos = null;
+
+        ConvocatoriaExamen newConvocatoriaExamen = new ConvocatoriaExamen();
+
+        convocatoriaExamen.setId(Util.calculoFichero(fichconvocatoria));
+
+        try {
+
+            if (fichconvocatoria.exists()) {
+
+                fos = new FileOutputStream(fichconvocatoria, true);
+
+                moos = new MyObjectOutputStream(fos);
+
+                newConvocatoriaExamen = getConvocatoriaExamenData(convocatoriaExamen);
+
+                if (newConvocatoriaExamen == null) {
+
+                    moos.writeObject(convocatoriaExamen);
+
+                } else {
+
+                    ExceptionManager e = new ExceptionManager("The user exist");
+
+                    throw e;
+                }
+
+            } else {
+
+                fos = new FileOutputStream(fichconvocatoria);
+                oos = new ObjectOutputStream(fos);
+            }
+
+            moos.close();
+
+            oos.close();
+
+            fos.close();
+
+        } catch (FileNotFoundException ex) {
+
+            ExceptionManager e = new ExceptionManager("The file doesn't exist");
+
+            throw e;
+
+        } catch (IOException ex) {
+
+            ExceptionManager e = new ExceptionManager("Don't work");
+
+            throw e;
+
+        }
     }
 
     @Override
@@ -49,9 +104,35 @@ public class DAOImplementationFich implements DAO {
     }
 
     @Override
-    public void ConsultConvocatoriaExamen(ConvocatoriaExamen convocatoriaExamen) throws ExceptionManager {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public boolean ConsultConvocatoriaExamen(ConvocatoriaExamen convocatoriaExamen) throws ExceptionManager {
+		// TODO Auto-generated method stub
+                boolean esta = false;
+		int cuantos;
+		if (fichconvocatoria.exists()) {
+			cuantos = Util.calculoFichero(fichconvocatoria);
+			try {
+				FileInputStream fis = new FileInputStream(fichconvocatoria);
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				for (int i = 0; i < cuantos; i++) {
+					ConvocatoriaExamen convocatoriaExamen2 = (ConvocatoriaExamen) ois.readObject();
+					if (Objects.equals(convocatoriaExamen.getId(), convocatoriaExamen2.getId())) {
+						esta=true;
+					}
+				}
+				ois.close();
+			} catch (FileNotFoundException e) {
+				System.out.println("File not found");
+			} catch (IOException e) {
+				System.out.println("Error IO");
+			} catch (ClassNotFoundException e) {
+				System.out.println("Error en el tipo de datos");
+			}
+		} else {
+			System.out.println("File not found");
+		}
+                return esta;
+	}
+
 
     @Override
     public List <ConvocatoriaExamen> ConsultConvocatoriasUD(UnidadDidactica unidadDidactica) throws ExceptionManager {

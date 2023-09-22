@@ -10,6 +10,9 @@ import Classes.UnidadDidactica;
 import Exceptions.ExceptionManager;
 import Model.DAO;
 import utils.Util;
+import Model.DAOFactory;
+import Model.DAOImplementationDB;
+import Model.DAOImplementationFich;
 
 /**
  *
@@ -84,9 +87,11 @@ public class Controller {
 
     }
 
-    public void run(DAO model, View view) throws ExceptionManager {
+    public void run() throws ExceptionManager {
 
         int opt;
+		DAO modelDB = new getDAO("DB");
+		DAO modelFich = new getDAO("DB");
         
         do {
             opt = menuListadosEnunciado();
