@@ -4,10 +4,12 @@ import Classes.ConvocatoriaExamen;
 import Classes.Enunciado;
 import Classes.UnidadDidactica;
 import Exceptions.ExceptionManager;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.Objects;
 import utils.Util;
 
 /**
@@ -16,6 +18,9 @@ import utils.Util;
  */
 public class DAOImplementationFich implements DAO {
 
+    String ficheroCon = "convocatorias.dat";
+    File fichconvocatoria = new File(ficheroCon);
+    
     @Override
     public void createUnidadDidactica(UnidadDidactica unidadDidactica) throws ExceptionManager {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -40,16 +45,15 @@ public class DAOImplementationFich implements DAO {
     public boolean ConsultConvocatoriaExamen(ConvocatoriaExamen convocatoriaExamen) throws ExceptionManager {
 		// TODO Auto-generated method stub
                 boolean esta = false;
-		String wTelefono = null;
-		int cuantos = 0;
-		if (fich.exists()) {
-			cuantos = Util.calculoFichero(fich);
+		int cuantos;
+		if (fichconvocatoria.exists()) {
+			cuantos = Util.calculoFichero(fichconvocatoria);
 			try {
-				FileInputStream fis = new FileInputStream(fich);
+				FileInputStream fis = new FileInputStream(fichconvocatoria);
 				ObjectInputStream ois = new ObjectInputStream(fis);
 				for (int i = 0; i < cuantos; i++) {
 					ConvocatoriaExamen convocatoriaExamen2 = (ConvocatoriaExamen) ois.readObject();
-					if (convocatoriaExamen.getId() == convocatoriaExamen2.getId()) {
+					if (Objects.equals(convocatoriaExamen.getId(), convocatoriaExamen2.getId())) {
 						esta=true;
 					}
 				}
@@ -61,7 +65,6 @@ public class DAOImplementationFich implements DAO {
 			} catch (ClassNotFoundException e) {
 				System.out.println("Error en el tipo de datos");
 			}
-
 		} else {
 			System.out.println("File not found");
 		}
