@@ -16,7 +16,7 @@ public class Enunciado {
     private DificultadType nivel;
     private List<UnidadDidactica> unidadDidacticas;
 
-    public Enunciado() {
+	public Enunciado() {
     }
 
     public Integer getId() {

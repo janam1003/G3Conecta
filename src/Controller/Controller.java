@@ -1,5 +1,9 @@
 package Controller;
 
+import java.util.List;
+
+import javax.swing.text.View;
+
 import Classes.ConvocatoriaExamen;
 import Classes.Enunciado;
 import Classes.UnidadDidactica;
@@ -39,13 +43,17 @@ public class Controller {
 
     }
 
-    private static void ConsulEnunciadosUD(DAO model) throws ExceptionManager {
+    private static void ConsultEnunciadosUD(DAO model, View view) throws ExceptionManager {
 
         // consultar enunciados de una unidad didactica
-        Enunciado enunciado = new Enunciado();
-        enunciado.setDatos(0);
-        model.ConsultEnunciadosUD(enunciado);
-
+        UnidadDidactica unidadDidactica = new UnidadDidactica();
+        unidadDidactica.setDatos(0);
+		if (model.ConsultUnidadDidactica(unidadDidactica) == true) {
+        	List<Enunciado> enunciados = model.ConsultEnunciadosUD(unidadDidactica);
+			view.mostrarEnunciados(enunciados);
+		} else {
+			view.mostrarUnidadDidacticaNoExiste();
+		}
     }
 
     private static void ConsultConvocatoriaExamen(DAO model) throws ExceptionManager {
@@ -57,13 +65,18 @@ public class Controller {
 
     }
 
-    private static void ConsultConvocatoriasUD(DAO model) throws ExceptionManager {
+    private static void ConsultConvocatoriasUD(DAO model, View view) throws ExceptionManager {
 
         // consultar convocatorias de una unidad didactica
-        ConvocatoriaExamen convocatoriaExamen = new ConvocatoriaExamen();
-        convocatoriaExamen.setDatos(0);
-        model.ConsultConvocatoriasUD(convocatoriaExamen);
+        UnidadDidactica unidadDidactica = new UnidadDidactica();
+        unidadDidactica.setDatos(0);
 
+		if (model.ConsultUnidadDidactica(unidadDidactica) == true) {
+			List<ConvocatoriaExamen> convocatorias = model.ConsultConvocatoriasUD(unidadDidactica);
+			view.mostrarConvocatorias(convocatorias);
+		} else {
+			view.mostrarUnidadDidacticaNoExiste();
+		}
     }
 
     // Visualizar el documento de texto asociado a un enunciado. 
@@ -71,7 +84,7 @@ public class Controller {
 
     }
 
-    public void run(DAO model) throws ExceptionManager {
+    public void run(DAO model, View view) throws ExceptionManager {
 
         int opt;
         
@@ -96,7 +109,7 @@ public class Controller {
                     break;
 
                 case 5:
-                    ConsulEnunciadosUD(model);
+                    ConsultEnunciadosUD(model, view);
                     break;
 
                 case 6:
@@ -104,7 +117,7 @@ public class Controller {
                     break;
 
                 case 7:
-                    ConsultConvocatoriasUD(model);
+                    ConsultConvocatoriasUD(model, view);
                     break;
 
 

@@ -14,8 +14,17 @@ public class ConvocatoriaExamen {
     private String descripcion;
     private LocalDate fecha;
     private String curso;
+	private Integer id_UnidadDidactica;
 
-    public ConvocatoriaExamen() {
+    public Integer getId_UnidadDidactica() {
+		return id_UnidadDidactica;
+	}
+
+	public void setId_UnidadDidactica(Integer id_UnidadDidactica) {
+		this.id_UnidadDidactica = id_UnidadDidactica;
+	}
+
+	public ConvocatoriaExamen() {
     }
 
     public Integer getId() {
