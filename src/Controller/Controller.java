@@ -41,8 +41,16 @@ public class Controller {
     private static void ConsultUnidadDidactica(DAO model) throws ExceptionManager {
         // consultar unidad didactica
         UnidadDidactica unidadDidactica = new UnidadDidactica();
-        unidadDidactica.setDatos(0);
+        //unidadDidactica.setDatos(0);
         model.ConsultUnidadDidactica(unidadDidactica);
+
+    }
+
+	private static void ConsultConvocatoriaExamen(DAO model) throws ExceptionManager {
+        // consultar convocatoria de examen
+        ConvocatoriaExamen convocatoriaExamen = new ConvocatoriaExamen();
+        //convocatoriaExamen.setDatos(0);
+        model.ConsultConvocatoriaExamen(convocatoriaExamen);
 
     }
 
@@ -57,15 +65,6 @@ public class Controller {
 		} else {
 			view.mostrarUnidadDidacticaNoExiste();
 		}
-    }
-
-    private static void ConsultConvocatoriaExamen(DAO model) throws ExceptionManager {
-
-        // consultar convocatoria de examen
-        ConvocatoriaExamen convocatoriaExamen = new ConvocatoriaExamen();
-        convocatoriaExamen.setDatos(0);
-        model.ConsultConvocatoriaExamen(convocatoriaExamen);
-
     }
 
     private static void ConsultConvocatoriasUD(DAO model, View view) throws ExceptionManager {

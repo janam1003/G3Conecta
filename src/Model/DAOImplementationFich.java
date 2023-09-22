@@ -40,7 +40,8 @@ public class DAOImplementationFich implements DAO {
 
     @Override
     public void createConvocatoriaExamen(ConvocatoriaExamen convocatoriaExamen) throws ExceptionManager {
-            FileOutputStream fos = null;
+        
+        FileOutputStream fos = null;
 
         MyObjectOutputStream moos = null;
 

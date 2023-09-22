@@ -31,15 +31,20 @@ public class DAOImplementationDB implements DAO {
           con = conection.openConnection();
 
         try {
-            final String createUnidadSQL = "INSERT INTO unidad VALUES (id, acronimo, titulo, evaluacion, descripcion(?, ?, ?, ?, ?)";
+            final String createUnidadSQL = "INSERT INTO unidad VALUES (acronimo, titulo, evaluacion, descripcion(?, ?, ?, ?)";
             stmt = con.prepareStatement(createUnidadSQL);
-            stmt.setString(2, unidadDidactica.getAcronimo());
-            stmt.setString(3, unidadDidactica.getTitulo());
-            stmt.setString(4, unidadDidactica.getEvaluacion());
-            stmt.setString(5, unidadDidactica.getDescripcion());
+            stmt.setString(1, unidadDidactica.getAcronimo());
+            stmt.setString(2, unidadDidactica.getTitulo());
+            stmt.setString(3, unidadDidactica.getEvaluacion());
+            stmt.setString(4, unidadDidactica.getDescripcion());
             stmt.executeUpdate();
-            
-            
+
+            ResultSet generatedKeys = stmt.getGeneratedKeys();
+			int idGenerado = 0;
+            if (generatedKeys.next())
+                idGenerado = generatedKeys.getInt(1);
+			unidadDidactica.setId(idGenerado);
+			
             stmt.close();
 
         } catch (SQLException e) {
@@ -75,34 +80,34 @@ public class DAOImplementationDB implements DAO {
 
     }
 
-    @Override
-    public void createEnunciado(Enunciado enunciado) throws ExceptionManager {
+    // @Override
+    // public void createEnunciado(Enunciado enunciado) throws ExceptionManager {
 
-        try {
-            final String createUnidadSQL = "INSERT INTO enunciado VALUES (id, descripcio, disponible, ruta, nivel(?, ?, ?, ?, ?)";
-            stmt = con.prepareStatement(createUnidadSQL);
-            stmt.setString(2, enunciado.getDescripcion());
-            stmt.setBoolean(3, enunciado.isDisponible());
-            stmt.setString(4, enunciado.getRuta());
-            Enunciado getEnunciado = null;
-            DificultadType dificultadType;
-            dificultadType = null;
-            for (DificultadType a : DificultadType.values()) {
-                if (a.ordinal() == getInt("nivel")) {
-                    dificultadType = a;
-                }
-            }
-            getEnunciado.setNivel(dificultadType);
-            stmt.executeUpdate();
-            stmt.close();
+    //     try {
+    //         final String createUnidadSQL = "INSERT INTO enunciado VALUES (id, descripcio, disponible, ruta, nivel(?, ?, ?, ?, ?)";
+    //         stmt = con.prepareStatement(createUnidadSQL);
+    //         stmt.setString(2, enunciado.getDescripcion());
+    //         stmt.setBoolean(3, enunciado.isDisponible());
+    //         stmt.setString(4, enunciado.getRuta());
+    //         Enunciado getEnunciado = null;
+    //         DificultadType dificultadType;
+    //         dificultadType = null;
+    //         for (DificultadType a : DificultadType.values()) {
+    //             if (a.ordinal() == getInt("nivel")) {
+    //                 dificultadType = a;
+    //             }
+    //         }
+    //         getEnunciado.setNivel(dificultadType);
+    //         stmt.executeUpdate();
+    //         stmt.close();
 
-        } catch (SQLException e) {
+    //     } catch (SQLException e) {
 
-            String error = "This Enunciado already exist";
-            ExceptionManager exp = new ExceptionManager(error);
-            throw exp;
-        }
-    }
+    //         String error = "This Enunciado already exist";
+    //         ExceptionManager exp = new ExceptionManager(error);
+    //         throw exp;
+    //     }
+    // }
 
     @Override
     public void createConvocatoriaExamen(ConvocatoriaExamen convocatoriaExamen) throws ExceptionManager {
