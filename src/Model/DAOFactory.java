@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.util.ResourceBundle;
 
@@ -8,34 +8,25 @@ import java.util.ResourceBundle;
  */
 public class DAOFactory {
 
-    private static DAO data;
-
     /**
      * Load the data variable, if it is not previously loaded
      *
      * @return data Model
      */
-    public static DAO getModel(String option) throws UnknownModelTypeException {
+public static DAO getModel(String modelType) {
+		String type = null;
+		DAO model = null;
+		ResourceBundle config = ResourceBundle.getBundle("model.config");
 
-        switch (option) {
+		if (modelType.equals("Examen"))
+			type = config.getString("MODELEXAMEN");
+		else if (modelType.equals("UDyEnun"))
+			type = config.getString("MODELUDENUN");
 
-            case "FILE":
-
-                data = new DAOImplementationFich();
-
-                break;
-
-            case "BD":
-
-                data = new DAOImplementationDB();
-
-                break;
-
-            default:
-
-                throw new UnknownModelTypeException("That type of model is not valid.");
-        }
-
-        return data;
+		if (type.equals("DB"))
+			model = new DAOImplementationDB();
+		else if (type.equals("FILE"))
+			model = new DAOImplementationFich();
+        return model;
     }
 }

@@ -1,4 +1,4 @@
-package Classes;
+package classes;
 
 import java.time.LocalDate;
 import utils.Util;
@@ -14,14 +14,14 @@ public class ConvocatoriaExamen {
     private String descripcion;
     private LocalDate fecha;
     private String curso;
-	private Integer id_UnidadDidactica;
+	private Integer id_Enunciado;
 
-    public Integer getId_UnidadDidactica() {
-		return id_UnidadDidactica;
+    public Integer getId_Enunciado() {
+		return id_Enunciado;
 	}
 
-	public void setId_UnidadDidactica(Integer id_UnidadDidactica) {
-		this.id_UnidadDidactica = id_UnidadDidactica;
+	public void setId_Enunciado(Integer id_Enunciado) {
+		this.id_Enunciado = id_Enunciado;
 	}
 
 	public ConvocatoriaExamen() {

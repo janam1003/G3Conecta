@@ -1,24 +1,69 @@
-package Controller;
+package controller;
 
 import java.util.List;
 
-import javax.swing.text.View;
-
-import Classes.ConvocatoriaExamen;
-import Classes.Enunciado;
-import Classes.UnidadDidactica;
-import Exceptions.ExceptionManager;
-import Model.DAO;
 import utils.Util;
-import Model.DAOFactory;
-import Model.DAOImplementationDB;
-import Model.DAOImplementationFich;
-
+import classes.ConvocatoriaExamen;
+import classes.Enunciado;
+import classes.UnidadDidactica;
+import exceptions.ExceptionManager;
+import model.DAO;
+import model.DAOFactory;
+import model.DAOImplementationDB;
+import model.DAOImplementationFich;
+import view.View;
 /**
  *
  * @author Janam
  */
 public class Controller {
+
+
+	public static void startApplication(DAO modelUDyEnun, DAO modelExamen, View view) throws ExceptionManager
+	{
+		Integer choosenMethod;
+
+		do {
+            choosenMethod = view.menuListadosEnunciado();
+            
+            switch (choosenMethod) {
+                case 1:
+                    createUnidadDidactica(modelUDyEnun);
+                    break;
+
+                case 2:
+                    createEnunciado(modelUDyEnun);
+                    break;
+
+                case 3:
+                    createConvocatoriaExamen(modelUDyEnun);
+                    break;
+
+                case 4:
+                    ConsultUnidadDidactica(modelUDyEnun);
+                    break;
+
+                case 5:
+                    ConsultEnunciadosUD(modelUDyEnun, view);
+                    break;
+
+                case 6:
+                    ConsultConvocatoriaExamen(modelExamen, view);
+                    break;
+
+                case 7:
+                    ConsultConvocatoriasEnun(modelUDyEnun, view);
+                    break;
+
+				// case 8:
+                //     VisualizeDocument(modelUDyEnun, view);
+                //     break;
+            }
+			choosenMethod = view.seguirPrograma();
+
+        } while (choosenMethod != 1);
+		view.terminarPrograma();
+	}
 
     private static void createUnidadDidactica(DAO model) throws ExceptionManager {
         UnidadDidactica unidadDidactica = new UnidadDidactica();
@@ -46,7 +91,7 @@ public class Controller {
 
     }
 
-	private static void ConsultConvocatoriaExamen(DAO model) throws ExceptionManager {
+	private static void ConsultConvocatoriaExamen(DAO model, View view) throws ExceptionManager {
         // consultar convocatoria de examen
         ConvocatoriaExamen convocatoriaExamen = new ConvocatoriaExamen();
         //convocatoriaExamen.setDatos(0);
@@ -58,7 +103,7 @@ public class Controller {
 
         // consultar enunciados de una unidad didactica
         UnidadDidactica unidadDidactica = new UnidadDidactica();
-        unidadDidactica.setDatos(0);
+        unidadDidactica.setId(view.getUserId("Write the Unidad Didactica's id you want"));
 		if (model.ConsultUnidadDidactica(unidadDidactica) == true) {
         	List<Enunciado> enunciados = model.ConsultEnunciadosUD(unidadDidactica);
 			view.mostrarEnunciados(enunciados);
@@ -67,79 +112,62 @@ public class Controller {
 		}
     }
 
-    private static void ConsultConvocatoriasUD(DAO model, View view) throws ExceptionManager {
+    private static void ConsultConvocatoriasEnun(DAO model, View view) throws ExceptionManager {
 
-        // consultar convocatorias de una unidad didactica
-        UnidadDidactica unidadDidactica = new UnidadDidactica();
-        unidadDidactica.setDatos(0);
-
-		if (model.ConsultUnidadDidactica(unidadDidactica) == true) {
-			List<ConvocatoriaExamen> convocatorias = model.ConsultConvocatoriasUD(unidadDidactica);
-			view.mostrarConvocatorias(convocatorias);
-		} else {
-			view.mostrarUnidadDidacticaNoExiste();
-		}
+        // consultar convocatorias de un enunciado
+        Enunciado enunciado = new Enunciado();
+		enunciado.setId(view.getUserId("Write the Enunciado's id you want"));
+		List<ConvocatoriaExamen> convocatorias = model.ConsultConvocatoriasEnun(enunciado);
+		view.mostrarConvocatorias(convocatorias);
     }
 
     // Visualizar el documento de texto asociado a un enunciado. 
-    private static void VisualizarDocumentoEnunciado(Enunciado enunciado) throws ExceptionManager {
-
+    private static void VisualizarDocumentoEnunciado(DAO model, View view) throws ExceptionManager {
+		//view.AskEnunciado();
     }
 
-    public void run() throws ExceptionManager {
+    // public void run() throws ExceptionManager {
 
-        int opt;
-		DAO modelDB = new getDAO("DB");
-		DAO modelFich = new getDAO("DB");
+    //     int opt;
+	// 	DAO modelDB = new getDAO("DB");
+	// 	DAO modelFich = new getDAO("DB");
         
-        do {
-            opt = menuListadosEnunciado();
+    //     do {
+    //         opt = menuListadosEnunciado();
             
-            switch (opt) {
-                case 1:
-                    createUnidadDidactica(model);
-                    break;
+    //         switch (opt) {
+    //             case 1:
+    //                 createUnidadDidactica(model);
+    //                 break;
 
-                case 2:
-                    createEnunciado(model);
-                    break;
+    //             case 2:
+    //                 createEnunciado(model);
+    //                 break;
 
-                case 3:
-                    createConvocatoriaExamen(model);
-                    break;
+    //             case 3:
+    //                 createConvocatoriaExamen(model);
+    //                 break;
 
-                case 4:
-                    ConsultUnidadDidactica(model);
-                    break;
+    //             case 4:
+    //                 ConsultUnidadDidactica(model);
+    //                 break;
 
-                case 5:
-                    ConsultEnunciadosUD(model, view);
-                    break;
+    //             case 5:
+    //                 ConsultEnunciadosUD(model, View);
+    //                 break;
 
-                case 6:
-                    ConsultConvocatoriaExamen(model);
-                    break;
+    //             case 6:
+    //                 ConsultConvocatoriaExamen(model);
+    //                 break;
 
-                case 7:
-                    ConsultConvocatoriasUD(model, view);
-                    break;
+    //             case 7:
+    //                 ConsultConvocatoriasUD(model, View);
+    //                 break;
 
 
-            }
+    //         }
 
-        } while (opt != 7);
-    }
-
-    private static int menuListadosEnunciado() {
-
-        System.out.println("1: Create UnidadDidactica.\n\t"
-                + "2: Create Enunciado.\n\t"
-                + "3: Create ConvocatoriaExamen.\n\t"
-                + "4: Consult UnidadDidactica.\n\t"
-                + "5: Consult EnunciadosUD.\n\t"
-                + "6: Consult ConvocatoriaExamen.\n\t"
-                + "7: Consult ConvocatoriasUD.\n\t");
-        return Util.leerInt("Introduce un número del 1 al 7: ", 1, 7);
-    }
+    //     } while (opt != 7);
+    // }
 
 }

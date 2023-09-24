@@ -1,11 +1,12 @@
-package Model;
+package model;
 
 
-import Classes.ConvocatoriaExamen;
-import Classes.Enunciado;
-import Classes.UnidadDidactica;
-import Exceptions.ExceptionManager;
-import Utils.MyObjectOutputStream;
+import utils.MyObjectOutputStream;
+import classes.ConvocatoriaExamen;
+import classes.Enunciado;
+import classes.UnidadDidactica;
+import exceptions.ExceptionManager;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -59,7 +60,7 @@ public class DAOImplementationFich implements DAO {
 
                 moos = new MyObjectOutputStream(fos);
 
-                newConvocatoriaExamen = getConvocatoriaExamenData(convocatoriaExamen);
+                //newConvocatoriaExamen = getConvocatoriaExamenData(convocatoriaExamen);
 
                 if (newConvocatoriaExamen == null) {
 
@@ -100,7 +101,7 @@ public class DAOImplementationFich implements DAO {
     }
 
     @Override
-    public void ConsultUnidadDidactica(UnidadDidactica unidadDidactica) throws ExceptionManager {
+    public boolean ConsultUnidadDidactica(UnidadDidactica unidadDidactica) throws ExceptionManager {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -136,7 +137,7 @@ public class DAOImplementationFich implements DAO {
 
 
     @Override
-    public List <ConvocatoriaExamen> ConsultConvocatoriasUD(UnidadDidactica unidadDidactica) throws ExceptionManager {
+    public List <ConvocatoriaExamen> ConsultConvocatoriasEnun(Enunciado enunciado) throws ExceptionManager {
 		
     	ConvocatoriaExamen newConvocatoriaExamen = null;
 		ArrayList<ConvocatoriaExamen> list = new ArrayList<ConvocatoriaExamen>();
@@ -154,7 +155,7 @@ public class DAOImplementationFich implements DAO {
                     newConvocatoriaExamen = new ConvocatoriaExamen();
                     newConvocatoriaExamen = (ConvocatoriaExamen) ois.readObject();
 
-                    if (newConvocatoriaExamen.getId_UnidadDidactica() == unidadDidactica.getId()) {
+                    if (newConvocatoriaExamen.getId_Enunciado() == enunciado.getId()) {
 							list.add(newConvocatoriaExamen);
                     }
                 }
@@ -187,6 +188,12 @@ public class DAOImplementationFich implements DAO {
             throw e;
         }
     }
+
+	@Override
+	public List<Enunciado> ConsultEnunciadosUD(UnidadDidactica unidadDidactica) throws ExceptionManager {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'ConsultEnunciadosUD'");
+	}
 
    // @Override
    // public List <Enunciado> ConsultEnunciadosUD(UnidadDidactica unidadDidactica) throws ExceptionManager {

@@ -1,11 +1,11 @@
-package Model;
+package model;
 
 import java.util.List;
 
-import Classes.ConvocatoriaExamen;
-import Classes.Enunciado;
-import Classes.UnidadDidactica;
-import Exceptions.ExceptionManager;
+import classes.ConvocatoriaExamen;
+import classes.Enunciado;
+import classes.UnidadDidactica;
+import exceptions.ExceptionManager;
 
 /**
  *
@@ -28,9 +28,9 @@ public interface DAO {
     // Method to consult (retrieve) a ConvocatoriaExamen object.
     public boolean ConsultConvocatoriaExamen(ConvocatoriaExamen convocatoriaExamen) throws ExceptionManager;
 
-    // Method to consult (retrieve) ConvocatoriaExamen objects associated with a UnidadDidactica.
-    // It takes a ConvocatoriaExamen object as an argument to specify the search criteria.
-    public List <ConvocatoriaExamen> ConsultConvocatoriasUD(UnidadDidactica unidadDidactica) throws ExceptionManager;
+    // Method to consult (retrieve) ConvocatoriaExamen objects associated with a Enunciado.
+    // It takes a Enunciado object as an argument to specify the search criteria.
+    public List <ConvocatoriaExamen> ConsultConvocatoriasEnun(Enunciado enunciado) throws ExceptionManager;
 
     // Method to consult (retrieve) Enunciado objects associated with a UnidadDidactica.
     // It takes an Enunciado object as an argument to specify the search criteria.

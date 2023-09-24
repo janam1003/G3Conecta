@@ -1,33 +1,15 @@
-package View;
+package view;
 
 import java.util.List;
+import classes.ConvocatoriaExamen;
+import classes.Enunciado;
 
-import Classes.ConvocatoriaExamen;
-import Classes.Enunciado;
-
-/**
- *
- * @author Janam
- */
-public class view {
-
-
-    public void mostrarConvocatorias(List<ConvocatoriaExamen> convocatorias) {
-        System.out.println("\nLista de convocatorias:");
-        for (ConvocatoriaExamen convocatoria : convocatorias) {
-            System.out.println(convocatoria.toString());
-        }
-    }
-
-	public void mostrarEnunciados(List<Enunciado> enunciados) {
-        System.out.println("\nLista de enunciados:");
-        for (Enunciado enunciado : enunciados) {
-            System.out.println(enunciado.toString());
-        }
-    }
-
-	public void mostrarUnidadDidacticaNoExiste() {
-        System.out.println("\nLa unidad didáctica no existe.");
-    }
-	
+public interface View {
+	public void mostrarConvocatorias(List<ConvocatoriaExamen> convocatorias);
+	public void mostrarEnunciados(List<Enunciado> enunciados);
+	public int menuListadosEnunciado();
+	public int seguirPrograma();
+	public int getUserId(String userMessage);
+	public void terminarPrograma();
+	public void mostrarUnidadDidacticaNoExiste();
 }

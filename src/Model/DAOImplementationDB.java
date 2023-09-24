@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,10 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Classes.ConvocatoriaExamen;
-import Classes.Enunciado;
-import Classes.UnidadDidactica;
-import Exceptions.ExceptionManager;
+import classes.ConvocatoriaExamen;
+import classes.Enunciado;
+import classes.UnidadDidactica;
+import exceptions.ExceptionManager;
 
 /**
  *
@@ -57,26 +57,26 @@ public class DAOImplementationDB implements DAO {
 
     @Override
     public void createEnunciado(Enunciado enunciado) throws ExceptionManager {
-          con = conection.openConnection();
+        //   con = conection.openConnection();
 
-        try {
-            final String createUnidadSQL = "INSERT INTO unidad VALUES (id, acronimo, titulo, evaluacion, descripcion(?, ?, ?, ?, ?)";
-            stmt = con.prepareStatement(createUnidadSQL);
-            stmt.setString(2, unidadDidactica.getAcronimo());
-            stmt.setString(3, unidadDidactica.getTitulo());
-            stmt.setString(4, unidadDidactica.getEvaluacion());
-            stmt.setString(5, unidadDidactica.getDescripcion());
-            stmt.executeUpdate();
+        // try {
+        //     final String createUnidadSQL = "INSERT INTO unidad VALUES (id, acronimo, titulo, evaluacion, descripcion(?, ?, ?, ?, ?)";
+        //     // stmt = con.prepareStatement(createUnidadSQL);
+        //     // stmt.setString(2, unidadDidactica.getAcronimo());
+        //     // stmt.setString(3, unidadDidactica.getTitulo());
+        //     // stmt.setString(4, unidadDidactica.getEvaluacion());
+        //     // stmt.setString(5, unidadDidactica.getDescripcion());
+        //     // stmt.executeUpdate();
             
             
-            stmt.close();
+        //     // stmt.close();
 
-        } catch (SQLException e) {
+        // } catch (SQLException e) {
 
-            String error = "This UnidadDidactica already exist";
-            ExceptionManager exp = new ExceptionManager(error);
-            throw exp;
-        }
+        //     String error = "This UnidadDidactica already exist";
+        //     ExceptionManager exp = new ExceptionManager(error);
+        //     throw exp;
+        // }
 
     }
 
@@ -191,4 +191,10 @@ public class DAOImplementationDB implements DAO {
             throw exp;
         }
     }
+
+	@Override
+	public List<ConvocatoriaExamen> ConsultConvocatoriasEnun(Enunciado enunciado) throws ExceptionManager {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'ConsultConvocatoriasEnun'");
+	}
 }
