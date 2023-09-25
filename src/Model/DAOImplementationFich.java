@@ -42,61 +42,33 @@ public class DAOImplementationFich implements DAO {
     @Override
     public void createConvocatoriaExamen(ConvocatoriaExamen convocatoriaExamen) throws ExceptionManager {
         
-        FileOutputStream fos = null;
-
-        MyObjectOutputStream moos = null;
-
-        ObjectOutputStream oos = null;
-
-        ConvocatoriaExamen newConvocatoriaExamen = new ConvocatoriaExamen();
-
-        convocatoriaExamen.setId(Util.calculoFichero(fichconvocatoria));
-
-        try {
-
-            if (fichconvocatoria.exists()) {
-
-                fos = new FileOutputStream(fichconvocatoria, true);
-
-                moos = new MyObjectOutputStream(fos);
-
-                //newConvocatoriaExamen = getConvocatoriaExamenData(convocatoriaExamen);
-
-                if (newConvocatoriaExamen == null) {
-
-                    moos.writeObject(convocatoriaExamen);
-
-                } else {
-
-                    ExceptionManager e = new ExceptionManager("The user exist");
-
-                    throw e;
-                }
-
-            } else {
-
-                fos = new FileOutputStream(fichconvocatoria);
-                oos = new ObjectOutputStream(fos);
+        if (fichconvocatoria.exists()) {
+             try {
+                MyObjectOutputStream oos = new MyObjectOutputStream(new FileOutputStream(fichconvocatoria, true));
+                oos.writeObject(convocatoriaExamen);
+                oos.close();
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
-
-            moos.close();
-
-            oos.close();
-
-            fos.close();
-
-        } catch (FileNotFoundException ex) {
-
-            ExceptionManager e = new ExceptionManager("The file doesn't exist");
-
-            throw e;
-
-        } catch (IOException ex) {
-
-            ExceptionManager e = new ExceptionManager("Don't work");
-
-            throw e;
-
+            
+        } else {
+           try {
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fichconvocatoria));
+                
+                oos.writeObject(convocatoriaExamen);
+                oos.close();
+                
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
     }
 
@@ -117,7 +89,7 @@ public class DAOImplementationFich implements DAO {
 				ObjectInputStream ois = new ObjectInputStream(fis);
 				for (int i = 0; i < cuantos; i++) {
 					ConvocatoriaExamen convocatoriaExamen2 = (ConvocatoriaExamen) ois.readObject();
-					if (Objects.equals(convocatoriaExamen.getId(), convocatoriaExamen2.getId())) {
+					if (convocatoriaExamen.getConvocatoria().equalsIgnoreCase(convocatoriaExamen2.getConvocatoria())) {
 						esta=true;
 					}
 				}
@@ -132,6 +104,7 @@ public class DAOImplementationFich implements DAO {
 		} else {
 			System.out.println("File not found");
 		}
+            
                 return esta;
 	}
 
@@ -140,7 +113,7 @@ public class DAOImplementationFich implements DAO {
     public List <ConvocatoriaExamen> ConsultConvocatoriasEnun(Enunciado enunciado) throws ExceptionManager {
 		
     	ConvocatoriaExamen newConvocatoriaExamen = null;
-		ArrayList<ConvocatoriaExamen> list = new ArrayList<ConvocatoriaExamen>();
+	ArrayList<ConvocatoriaExamen> list = new ArrayList<ConvocatoriaExamen>();
 
         if (fichconvocatoria.exists()) {
 

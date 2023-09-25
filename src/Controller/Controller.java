@@ -79,7 +79,7 @@ public class Controller {
 
     private static void createConvocatoriaExamen(DAO model) throws ExceptionManager {
         ConvocatoriaExamen convocatoriaExamen = new ConvocatoriaExamen();
-        convocatoriaExamen.setDatos(0);
+        convocatoriaExamen.setDatos();
         model.createConvocatoriaExamen(convocatoriaExamen);
     }
 

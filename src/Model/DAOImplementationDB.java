@@ -18,13 +18,11 @@ import exceptions.ExceptionManager;
  */
 public class DAOImplementationDB implements DAO {
 
-	private Connection con;
+    private Connection con;
 
     private PreparedStatement stmt;
 
     private final ConnectionOpenClose conection = new ConnectionOpenClose();
-
-	private ResultSet rs;
 
     @Override
     public void createUnidadDidactica(UnidadDidactica unidadDidactica) throws ExceptionManager {
@@ -126,6 +124,7 @@ public class DAOImplementationDB implements DAO {
             stmt.setInt(1, unidadDidactica.getId());
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
+                
                 if ( unidadDidactica.getId() == rs.getInt("id")) {
                     exists = true;
                 }
@@ -157,6 +156,7 @@ public class DAOImplementationDB implements DAO {
     @Override
     public List <Enunciado> ConsultEnunciadosUD(UnidadDidactica unidadDidactica) throws ExceptionManager {
 	
+        
 		con = conection.openConnection();
 
         try {
@@ -170,7 +170,7 @@ public class DAOImplementationDB implements DAO {
 
 			stmt.setString(1, unidadDidactica.getId().toString());
 			// Execute the query
-			rs = stmt.executeQuery();
+			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
 				// We add the champ to the list
