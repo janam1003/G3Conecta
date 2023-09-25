@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
 
 /**
  *
- * @author Janam
+ * @author 2dam
  */
 public class ConnectionOpenClose {
 

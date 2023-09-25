@@ -60,15 +60,22 @@ public class UnidadDidactica {
     public void setDatos(int id) {
 
         this.id = id;
+        
         titulo = Util.introducirCadena("Insert the titulo: ");
+        
         descripcion = Util.introducirCadena("Insert the UnidadDidactica descripcion: ");
+        
         evaluacion = Util.introducirCadena("Insert the evaluacion: ");
+        
         acronimo = Util.introducirCadena("Insert the acronimo: ");
 
     }
 
     public String getDatos() {
-        return "UnidadDidactica{" + "id=" + id + ", titulo=" + titulo + ", descripcion=" + descripcion + ", evaluacion=" + evaluacion + ", acronimo=" + acronimo + '}';
+        
+        return "UnidadDidactica{" + "id=" + id + ", titulo=" 
+                + titulo + ", descripcion=" + descripcion + ","
+                + "evaluacion=" + evaluacion + ", acronimo=" + acronimo + '}';
     }
 
 }

@@ -68,6 +68,8 @@ public class Enunciado {
     }
 
     public void setDatos(int id) {
+        
+         this.id = id;
 
         this.descripcion = Util.introducirCadena("Insert the description: ");
 
@@ -93,7 +95,13 @@ public class Enunciado {
     }
 
     public String getDatos() {
-        return "Enunciado{" + "id=" + id + ", disponible=" + disponible + ", descripcion=" + descripcion + ", ruta=" + ruta + ", nivel=" + nivel + ", unidadDidacticas=" + unidadDidacticas + '}';
+        
+        return "Enunciado{" + "id=" + id + ", disponible=" + disponible + ", "
+                
+                + "descripcion=" + descripcion + ", ruta=" + ruta + ", "
+                
+                + "nivel=" + nivel + ", unidadDidacticas=" + unidadDidacticas + '}';
+        
     }
 
 }

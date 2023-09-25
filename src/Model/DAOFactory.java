@@ -1,23 +1,21 @@
 package Model;
 
-import java.util.ResourceBundle;
-
 /**
  *
- * @author Janam
+ * @author 2dam
  */
 public class DAOFactory {
 
     private static DAO data;
 
     /**
-     * Load the data variable, if it is not previously loaded
      *
      * @return data Model
+     * @throws UnknownModelTypeException
      */
-    public static DAO getModel() throws UnknownModelTypeException {
+    public static DAO getModel(String option) throws UnknownModelTypeException {
 
-        switch (ResourceBundle.getBundle("Model.config").getString("MODEL")) {
+        switch (option) {
 
             case "FILE":
 
