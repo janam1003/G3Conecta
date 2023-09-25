@@ -12,4 +12,8 @@ public interface View {
 	public int getUserId(String userMessage);
 	public void terminarPrograma();
 	public void mostrarUnidadDidacticaNoExiste();
+	public Enunciado setDatosEnun();
+	public Integer askConvocatoriaExamen();
+	public void mostrarConvocatoriaExamenNoExiste();
+	public long askIdEnunciado();
 }

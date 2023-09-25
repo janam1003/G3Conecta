@@ -55,30 +55,45 @@ public class DAOImplementationDB implements DAO {
         }
     }
 
-    @Override
-    public void createEnunciado(Enunciado enunciado) throws ExceptionManager {
-        //   con = conection.openConnection();
+@Override
+public long createEnunciado(Enunciado enunciado) throws ExceptionManager {
+	con = conection.openConnection();
 
-        // try {
-        //     final String createUnidadSQL = "INSERT INTO unidad VALUES (id, acronimo, titulo, evaluacion, descripcion(?, ?, ?, ?, ?)";
-        //     // stmt = con.prepareStatement(createUnidadSQL);
-        //     // stmt.setString(2, unidadDidactica.getAcronimo());
-        //     // stmt.setString(3, unidadDidactica.getTitulo());
-        //     // stmt.setString(4, unidadDidactica.getEvaluacion());
-        //     // stmt.setString(5, unidadDidactica.getDescripcion());
-        //     // stmt.executeUpdate();
-            
-            
-        //     // stmt.close();
+	try {
+		final String createEnunciadoSQL = "INSERT INTO enunciado (descripcion, disponible, ruta, nivel) VALUES (?, ?, ?, ?)";
+		stmt = con.prepareStatement(createEnunciadoSQL, stmt.RETURN_GENERATED_KEYS);
+		stmt.setString(1, enunciado.getDescripcion());
+		stmt.setBoolean(2, enunciado.isDisponible());
+		stmt.setString(3, enunciado.getRuta());
+		stmt.setInt(4, enunciado.getNivel().ordinal());
+		stmt.executeUpdate();
 
-        // } catch (SQLException e) {
+		ResultSet generatedKeys = stmt.getGeneratedKeys();
+		long idGenerado = 0;
+		if (generatedKeys.next())
+			idGenerado = generatedKeys.getLong(1);
+		enunciado.setId(idGenerado);
 
-        //     String error = "This UnidadDidactica already exist";
-        //     ExceptionManager exp = new ExceptionManager(error);
-        //     throw exp;
-        // }
+		conection.closeConnection(stmt, con);
 
-    }
+		if (enunciado.getUnidadDidacticas() != null) {
+			con = conection.openConnection();
+			for (UnidadDidactica unidadDidactica : enunciado.getUnidadDidacticas()) {
+				final String createUnidadEnunciadoSQL = "INSERT INTO unidad_enunciado (unidads_id, enunciados_id) VALUES (?, ?)";
+				stmt = con.prepareStatement(createUnidadEnunciadoSQL);
+				stmt.setInt(1, unidadDidactica.getId());
+				stmt.setLong(2, enunciado.getId());
+				stmt.executeUpdate();
+			}
+			conection.closeConnection(stmt, con);
+		}
+		return idGenerado;
+	} catch (SQLException e) {
+		e.printStackTrace();
+		throw new ExceptionManager("Error creating enunciado");
+	}
+}
+
 
     // @Override
     // public void createEnunciado(Enunciado enunciado) throws ExceptionManager {
@@ -196,5 +211,11 @@ public class DAOImplementationDB implements DAO {
 	public List<ConvocatoriaExamen> ConsultConvocatoriasEnun(Enunciado enunciado) throws ExceptionManager {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'ConsultConvocatoriasEnun'");
+	}
+
+	@Override
+	public void updateIdUEnunciadoExamen(Enunciado enunciado, ConvocatoriaExamen convocatoriaExamen) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'updateIdUEnunciadoExamen'");
 	}
 }

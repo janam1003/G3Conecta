@@ -9,7 +9,7 @@ import utils.Util;
  */
 public class Enunciado {
 
-    private Integer id;
+    private long id;
     private boolean disponible;
     private String descripcion;
     private String ruta;
@@ -19,11 +19,11 @@ public class Enunciado {
 	public Enunciado() {
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -55,28 +55,7 @@ public class Enunciado {
         return nivel;
     }
 
-    public void setNivel(DificultadType nivel) {
-        this.nivel = nivel;
-    }
-
-    public List<UnidadDidactica> getUnidadDidacticas() {
-        return unidadDidacticas;
-    }
-
-    public void setUnidadDidacticas(List<UnidadDidactica> unidadDidacticas) {
-        this.unidadDidacticas = unidadDidacticas;
-    }
-
-    public void setDatos(int id) {
-
-        this.id = id;
-        this.disponible = Util.esBoolean();
-        this.descripcion = Util.introducirCadena("Insert the movement description: ");
-        this.ruta = "ruta";
-
-        char x = Util.leerChar("Set your nivel type in A for Alta, M for Media"
-                + "B for Baja: ", 'A', 'M', 'B');
-
+    public void setNivel(char x) {
         switch (x) {
 
             case 'A':
@@ -92,13 +71,15 @@ public class Enunciado {
                 break;
 
         }
-
-        this.unidadDidacticas = unidadDidacticas;
-
+        this.nivel = nivel;
     }
 
-    public String getDatos() {
-        return "Enunciado{" + "id=" + id + ", disponible=" + disponible + ", descripcion=" + descripcion + ", ruta=" + ruta + ", nivel=" + nivel + ", unidadDidacticas=" + unidadDidacticas + '}';
+    public List<UnidadDidactica> getUnidadDidacticas() {
+        return unidadDidacticas;
+    }
+
+    public void setUnidadDidacticas(List<UnidadDidactica> unidadDidacticas) {
+        this.unidadDidacticas = unidadDidacticas;
     }
 
 }

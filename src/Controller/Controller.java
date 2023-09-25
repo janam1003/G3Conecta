@@ -32,7 +32,7 @@ public class Controller {
                     break;
 
                 case 2:
-                    createEnunciado(modelUDyEnun);
+                    createEnunciado(modelUDyEnun, modelExamen, view);
                     break;
 
                 case 3:
@@ -47,17 +47,17 @@ public class Controller {
                     ConsultEnunciadosUD(modelUDyEnun, view);
                     break;
 
-                case 6:
-                    ConsultConvocatoriaExamen(modelExamen, view);
-                    break;
+                // case 6:
+                //     ConsultConvocatoriaExamen(modelExamen, view);
+                //     break;
 
                 case 7:
                     ConsultConvocatoriasEnun(modelUDyEnun, view);
                     break;
 
-				// case 8:
-                //     VisualizeDocument(modelUDyEnun, view);
-                //     break;
+				case 8:
+                    VisualizeDocument(modelUDyEnun, view);
+                    break;
             }
 			choosenMethod = view.seguirPrograma();
 
@@ -65,17 +65,49 @@ public class Controller {
 		view.terminarPrograma();
 	}
 
-    private static void createUnidadDidactica(DAO model) throws ExceptionManager {
+    private static void VisualizeDocument(DAO modelUDyEnun, View view) {
+		Enunciado enunciado = new Enunciado();
+		enunciado.setId(view.askIdEnunciado());
+
+		
+
+	}
+
+	private static void createUnidadDidactica(DAO model) throws ExceptionManager {
         UnidadDidactica unidadDidactica = new UnidadDidactica();
         unidadDidactica.setDatos(0);
         model.createUnidadDidactica(unidadDidactica);
     }
 
-    private static void createEnunciado(DAO model) throws ExceptionManager {
+    private static void createEnunciado(DAO modelUDyEnun, DAO modelExamen, View view) throws ExceptionManager {
         Enunciado enunciado = new Enunciado();
-        enunciado.setDatos(0);
-        model.createEnunciado(enunciado);
-    }
+		List <UnidadDidactica> unidadDidacticas = null;
+		ConvocatoriaExamen convocatoriaExamen = new ConvocatoriaExamen();
+        
+		enunciado = view.setDatosEnun();
+        unidadDidacticas = enunciado.getUnidadDidacticas();
+		for (UnidadDidactica unidadDidactica : unidadDidacticas)
+		{
+			if (modelUDyEnun.ConsultUnidadDidactica(unidadDidactica) == false)
+			{
+				view.mostrarUnidadDidacticaNoExiste();
+				return;
+			}
+		}
+		Integer id_convocatoria = view.askConvocatoriaExamen();
+		if (id_convocatoria != -1)
+		{
+			convocatoriaExamen.setId(id_convocatoria);
+			if (modelExamen.ConsultConvocatoriaExamen(convocatoriaExamen) == false)
+			{
+				view.mostrarConvocatoriaExamenNoExiste();
+				return;
+			}
+		}
+		enunciado.setId(modelUDyEnun.createEnunciado(enunciado));
+		if (id_convocatoria != -1)
+			modelExamen.updateIdUEnunciadoExamen(enunciado, convocatoriaExamen);
+	}
 
     private static void createConvocatoriaExamen(DAO model) throws ExceptionManager {
         ConvocatoriaExamen convocatoriaExamen = new ConvocatoriaExamen();
@@ -91,13 +123,13 @@ public class Controller {
 
     }
 
-	private static void ConsultConvocatoriaExamen(DAO model, View view) throws ExceptionManager {
-        // consultar convocatoria de examen
-        ConvocatoriaExamen convocatoriaExamen = new ConvocatoriaExamen();
-        //convocatoriaExamen.setDatos(0);
-        model.ConsultConvocatoriaExamen(convocatoriaExamen);
+	// private static ConvocatoriaExamen ConsultConvocatoriaExamen(DAO model, View view) throws ExceptionManager {
+    //     // consultar convocatoria de examen
+    //     ConvocatoriaExamen convocatoriaExamen = new ConvocatoriaExamen();
+    //     //convocatoriaExamen.setDatos(0);
+    //     model.ConsultConvocatoriaExamen(convocatoriaExamen);
 
-    }
+    // }
 
     private static void ConsultEnunciadosUD(DAO model, View view) throws ExceptionManager {
 

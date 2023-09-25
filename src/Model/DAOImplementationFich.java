@@ -35,7 +35,7 @@ public class DAOImplementationFich implements DAO {
     }
 
     @Override
-    public void createEnunciado(Enunciado enunciado) throws ExceptionManager {
+    public long createEnunciado(Enunciado enunciado) throws ExceptionManager {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -107,9 +107,8 @@ public class DAOImplementationFich implements DAO {
 
     @Override
     public boolean ConsultConvocatoriaExamen(ConvocatoriaExamen convocatoriaExamen) throws ExceptionManager {
-		// TODO Auto-generated method stub
-                boolean esta = false;
 		int cuantos;
+		boolean returnExist = false;
 		if (fichconvocatoria.exists()) {
 			cuantos = Util.calculoFichero(fichconvocatoria);
 			try {
@@ -118,7 +117,7 @@ public class DAOImplementationFich implements DAO {
 				for (int i = 0; i < cuantos; i++) {
 					ConvocatoriaExamen convocatoriaExamen2 = (ConvocatoriaExamen) ois.readObject();
 					if (Objects.equals(convocatoriaExamen.getId(), convocatoriaExamen2.getId())) {
-						esta=true;
+						returnExist = true;
 					}
 				}
 				ois.close();
@@ -132,7 +131,7 @@ public class DAOImplementationFich implements DAO {
 		} else {
 			System.out.println("File not found");
 		}
-                return esta;
+		return returnExist;
 	}
 
 
@@ -193,6 +192,11 @@ public class DAOImplementationFich implements DAO {
 	public List<Enunciado> ConsultEnunciadosUD(UnidadDidactica unidadDidactica) throws ExceptionManager {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'ConsultEnunciadosUD'");
+	}
+
+	@Override
+	public void updateIdUEnunciadoExamen(Enunciado enunciado, ConvocatoriaExamen convocatoriaExamen) {
+
 	}
 
    // @Override
