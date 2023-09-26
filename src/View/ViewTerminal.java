@@ -2,6 +2,9 @@ package view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 
 import classes.ConvocatoriaExamen;
 import classes.Enunciado;
@@ -24,7 +27,12 @@ public class ViewTerminal implements View {
 	public void mostrarEnunciados(List<Enunciado> enunciados) {
         System.out.println("\nLista de enunciados:");
         for (Enunciado enunciado : enunciados) {
-            System.out.println(enunciado.toString());
+            System.out.println("Id = " + enunciado.getId());
+			System.out.println("Disponible = " + enunciado.isDisponible());
+			System.out.println("Descripcion = " + enunciado.getDescripcion());
+			System.out.println("Ruta = " + enunciado.getRuta());
+			System.out.println("Nivel = " + enunciado.getNivel() + "\n");
+
         }
     }
 
@@ -32,13 +40,11 @@ public class ViewTerminal implements View {
         System.out.println("\t1: Create UnidadDidactica.\n\t"
                 + "2: Create Enunciado.\n\t"
                 + "3: Create ConvocatoriaExamen.\n\t"
-                + "4: Consult UnidadDidactica.\n\t"
-                + "5: Consult Enunciados with specefic Unidad Didactica.\n\t"
-                + "6: Consult ConvocatoriaExamen.\n\t"
-                + "7: Consult Convocatorias with specefic Enunciado.\n\t"
-				+ "8: Visualize document with specific Enunciado.\n\t"
-				+ "9: Exit.");
-        return Util.leerInt("Introduce un número del 1 al 9: ", 1, 9);
+                + "4: Consult Enunciados with specefic Unidad Didactica.\n\t"
+                + "5: Consult Convocatorias with specefic Enunciado.\n\t"
+				+ "6: Visualize document with specific Enunciado.\n\t"
+				+ "7: Exit.");
+        return Util.leerInt("Introduce un número del 1 al 7: ", 1, 7);
     }
 
 	public int seguirPrograma() {
@@ -91,9 +97,34 @@ public class ViewTerminal implements View {
 
 	@Override
 	public long askIdEnunciado() {
-		double inputValue = Util.leerDouble("Write the enunciado's id you want to visualize");
+		System.out.println("Write the enunciado's id you want to visualize");
+		double inputValue = Util.leerDouble();
 		long id = (long) inputValue;
 		return id;
+	}
+
+	@Override
+	public void cantFindPath() {
+		System.out.println("The path for the enunciado's id provided doesn't exist");
+	}
+
+	@Override
+	public void showIdEnunciado(long id) {
+		System.out.println("The created enunciado's id is: " + id);
+	}
+
+	@Override
+	public void visualizeDocument(String path) {
+		File file = new File(path);
+		Desktop desktop = Desktop.getDesktop();
+		try {
+				if (file.exists() && desktop.isSupported(Desktop.Action.OPEN))
+					desktop.open(file);
+				else
+					System.out.println("The file cant be opened");
+		} catch (IOException e) {
+			System.out.println("The file cant be opened");
+		}
 	}
 
 }

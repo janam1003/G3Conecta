@@ -175,7 +175,7 @@ public class DAOImplementationFich implements DAO {
 
             } catch (IOException ex) {
 
-                ExceptionManager e = new ExceptionManager("Don't work");
+                ExceptionManager e = new ExceptionManager("Doesn't work");
 
                 throw e;
             }
@@ -199,9 +199,10 @@ public class DAOImplementationFich implements DAO {
 
 	}
 
-   // @Override
-   // public List <Enunciado> ConsultEnunciadosUD(UnidadDidactica unidadDidactica) throws ExceptionManager {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  //  }
+	@Override
+	public String getPathEnun(Enunciado enunciado) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'getPathEnun'");
+	}
 
 }

@@ -94,36 +94,6 @@ public long createEnunciado(Enunciado enunciado) throws ExceptionManager {
 	}
 }
 
-
-    // @Override
-    // public void createEnunciado(Enunciado enunciado) throws ExceptionManager {
-
-    //     try {
-    //         final String createUnidadSQL = "INSERT INTO enunciado VALUES (id, descripcio, disponible, ruta, nivel(?, ?, ?, ?, ?)";
-    //         stmt = con.prepareStatement(createUnidadSQL);
-    //         stmt.setString(2, enunciado.getDescripcion());
-    //         stmt.setBoolean(3, enunciado.isDisponible());
-    //         stmt.setString(4, enunciado.getRuta());
-    //         Enunciado getEnunciado = null;
-    //         DificultadType dificultadType;
-    //         dificultadType = null;
-    //         for (DificultadType a : DificultadType.values()) {
-    //             if (a.ordinal() == getInt("nivel")) {
-    //                 dificultadType = a;
-    //             }
-    //         }
-    //         getEnunciado.setNivel(dificultadType);
-    //         stmt.executeUpdate();
-    //         stmt.close();
-
-    //     } catch (SQLException e) {
-
-    //         String error = "This Enunciado already exist";
-    //         ExceptionManager exp = new ExceptionManager(error);
-    //         throw exp;
-    //     }
-    // }
-
     @Override
     public void createConvocatoriaExamen(ConvocatoriaExamen convocatoriaExamen) throws ExceptionManager {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -154,7 +124,7 @@ public long createEnunciado(Enunciado enunciado) throws ExceptionManager {
         }
         try{
         conection.closeConnection(stmt, con);
-                }catch(SQLException e){}
+        }catch(SQLException e){}
         
         return exists;
     }
@@ -163,11 +133,6 @@ public long createEnunciado(Enunciado enunciado) throws ExceptionManager {
     public boolean ConsultConvocatoriaExamen(ConvocatoriaExamen convocatoriaExamen) throws ExceptionManager {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    //@Override
-    //public List <ConvocatoriaExamen> ConsultConvocatoriasUD(UnidadDidactica unidadDidactica) throws ExceptionManager {
-		//VACIO esta en fichero
-    //}
 
     @Override
     public List <Enunciado> ConsultEnunciadosUD(UnidadDidactica unidadDidactica) throws ExceptionManager {
@@ -179,28 +144,33 @@ public long createEnunciado(Enunciado enunciado) throws ExceptionManager {
 			Enunciado enunciado;
 			ArrayList<Enunciado> list = new ArrayList<Enunciado>();
 
-            final String SELECTenunciados = "SELECT e.* FROM enunciado e WHERE e.id = (Select enunciados_id from unidad_enunciado where unidads_id = ?";
+            final String SELECTenunciados = "SELECT e.* FROM enunciado e WHERE e.id = (Select enunciados_id from unidad_enunciado where unidads_id = ?)";
 			// Prepare the query
 			stmt = con.prepareStatement(SELECTenunciados);
 
-			stmt.setString(1, unidadDidactica.getId().toString());
+			stmt.setInt(1, unidadDidactica.getId());
 			// Execute the query
 			rs = stmt.executeQuery();
 
 			while (rs.next()) {
 				// We add the champ to the list
 				enunciado = new Enunciado();
-				enunciado.setId(rs.getInt("Id"));
+				enunciado.setId(rs.getLong("Id"));
 				enunciado.setDescripcion(rs.getString("Descripcion"));
 				enunciado.setRuta(rs.getString("Ruta"));
 				enunciado.setDisponible(rs.getBoolean("Disponible"));
-				//enunciado.setNivel(rs.getString("Nivel"));
+				if (rs.getInt("nivel") == 0)
+					enunciado.setNivel('A');
+				else if (rs.getInt("nivel") == 1)
+					enunciado.setNivel('M');
+				else if (rs.getInt("nivel") == 2)
+					enunciado.setNivel('B');
 				list.add(enunciado);
 			}
 			conection.closeConnection(stmt, con);
 			return list;
         } catch (SQLException e) {
-
+			e.printStackTrace();
             String error = "No enunciados with this unidad didactica";
             ExceptionManager exp = new ExceptionManager(error);
             throw exp;
@@ -217,5 +187,28 @@ public long createEnunciado(Enunciado enunciado) throws ExceptionManager {
 	public void updateIdUEnunciadoExamen(Enunciado enunciado, ConvocatoriaExamen convocatoriaExamen) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'updateIdUEnunciadoExamen'");
+	}
+
+	@Override
+	public String getPathEnun(Enunciado enunciado) throws ExceptionManager{
+		con = conection.openConnection();
+		String path = null;
+
+	try {
+		final String createEnunciadoSQL = "SELECT e.ruta FROM enunciado e where e.id = ?";
+		stmt = con.prepareStatement(createEnunciadoSQL);
+		stmt.setLong(1, enunciado.getId());
+		rs = stmt.executeQuery();
+
+		while (rs.next())
+			path = rs.getString("Ruta");
+
+		conection.closeConnection(stmt, con);
+
+		return path;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ExceptionManager("Error searching for enunciado path on DB");
+		}
 	}
 }

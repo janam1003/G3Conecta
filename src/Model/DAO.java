@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import classes.ConvocatoriaExamen;
@@ -37,5 +38,7 @@ public interface DAO {
     public List <Enunciado> ConsultEnunciadosUD(UnidadDidactica unidadDidactica) throws ExceptionManager;
 
 	public void updateIdUEnunciadoExamen(Enunciado enunciado, ConvocatoriaExamen convocatoriaExamen);
+
+	public String getPathEnun(Enunciado enunciado) throws ExceptionManager;
 
 }

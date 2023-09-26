@@ -16,4 +16,7 @@ public interface View {
 	public Integer askConvocatoriaExamen();
 	public void mostrarConvocatoriaExamenNoExiste();
 	public long askIdEnunciado();
+	public void cantFindPath();
+	public void showIdEnunciado(long id);
+	public void visualizeDocument(String path);
 }

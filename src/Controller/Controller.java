@@ -1,5 +1,6 @@
 package controller;
 
+
 import java.util.List;
 
 import utils.Util;
@@ -40,22 +41,14 @@ public class Controller {
                     break;
 
                 case 4:
-                    ConsultUnidadDidactica(modelUDyEnun);
-                    break;
-
-                case 5:
                     ConsultEnunciadosUD(modelUDyEnun, view);
                     break;
 
-                // case 6:
-                //     ConsultConvocatoriaExamen(modelExamen, view);
-                //     break;
-
-                case 7:
+                case 5:
                     ConsultConvocatoriasEnun(modelUDyEnun, view);
                     break;
 
-				case 8:
+				case 6:
                     VisualizeDocument(modelUDyEnun, view);
                     break;
             }
@@ -65,12 +58,14 @@ public class Controller {
 		view.terminarPrograma();
 	}
 
-    private static void VisualizeDocument(DAO modelUDyEnun, View view) {
+    private static void VisualizeDocument(DAO model, View view) throws ExceptionManager {
 		Enunciado enunciado = new Enunciado();
 		enunciado.setId(view.askIdEnunciado());
-
-		
-
+		String path = model.getPathEnun(enunciado);
+		if (path == null)
+			view.cantFindPath();
+		else
+			view.visualizeDocument(path);	
 	}
 
 	private static void createUnidadDidactica(DAO model) throws ExceptionManager {
@@ -107,6 +102,7 @@ public class Controller {
 		enunciado.setId(modelUDyEnun.createEnunciado(enunciado));
 		if (id_convocatoria != -1)
 			modelExamen.updateIdUEnunciadoExamen(enunciado, convocatoriaExamen);
+		view.showIdEnunciado(enunciado.getId());
 	}
 
     private static void createConvocatoriaExamen(DAO model) throws ExceptionManager {
@@ -114,22 +110,6 @@ public class Controller {
         convocatoriaExamen.setDatos(0);
         model.createConvocatoriaExamen(convocatoriaExamen);
     }
-
-    private static void ConsultUnidadDidactica(DAO model) throws ExceptionManager {
-        // consultar unidad didactica
-        UnidadDidactica unidadDidactica = new UnidadDidactica();
-        //unidadDidactica.setDatos(0);
-        model.ConsultUnidadDidactica(unidadDidactica);
-
-    }
-
-	// private static ConvocatoriaExamen ConsultConvocatoriaExamen(DAO model, View view) throws ExceptionManager {
-    //     // consultar convocatoria de examen
-    //     ConvocatoriaExamen convocatoriaExamen = new ConvocatoriaExamen();
-    //     //convocatoriaExamen.setDatos(0);
-    //     model.ConsultConvocatoriaExamen(convocatoriaExamen);
-
-    // }
 
     private static void ConsultEnunciadosUD(DAO model, View view) throws ExceptionManager {
 
@@ -148,58 +128,9 @@ public class Controller {
 
         // consultar convocatorias de un enunciado
         Enunciado enunciado = new Enunciado();
-		enunciado.setId(view.getUserId("Write the Enunciado's id you want"));
+		enunciado.setId(view.askIdEnunciado());
 		List<ConvocatoriaExamen> convocatorias = model.ConsultConvocatoriasEnun(enunciado);
 		view.mostrarConvocatorias(convocatorias);
     }
-
-    // Visualizar el documento de texto asociado a un enunciado. 
-    private static void VisualizarDocumentoEnunciado(DAO model, View view) throws ExceptionManager {
-		//view.AskEnunciado();
-    }
-
-    // public void run() throws ExceptionManager {
-
-    //     int opt;
-	// 	DAO modelDB = new getDAO("DB");
-	// 	DAO modelFich = new getDAO("DB");
-        
-    //     do {
-    //         opt = menuListadosEnunciado();
-            
-    //         switch (opt) {
-    //             case 1:
-    //                 createUnidadDidactica(model);
-    //                 break;
-
-    //             case 2:
-    //                 createEnunciado(model);
-    //                 break;
-
-    //             case 3:
-    //                 createConvocatoriaExamen(model);
-    //                 break;
-
-    //             case 4:
-    //                 ConsultUnidadDidactica(model);
-    //                 break;
-
-    //             case 5:
-    //                 ConsultEnunciadosUD(model, View);
-    //                 break;
-
-    //             case 6:
-    //                 ConsultConvocatoriaExamen(model);
-    //                 break;
-
-    //             case 7:
-    //                 ConsultConvocatoriasUD(model, View);
-    //                 break;
-
-
-    //         }
-
-    //     } while (opt != 7);
-    // }
 
 }
