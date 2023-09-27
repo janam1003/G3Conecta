@@ -29,7 +29,7 @@ public class Controller {
             
             switch (choosenMethod) {
                 case 1:
-                    createUnidadDidactica(modelUDyEnun);
+                    createUnidadDidactica(modelUDyEnun, view);
                     break;
 
                 case 2:
@@ -37,7 +37,7 @@ public class Controller {
                     break;
 
                 case 3:
-                    createConvocatoriaExamen(modelUDyEnun);
+                    createConvocatoriaExamen(modelExamen, view);
                     break;
 
                 case 4:
@@ -45,7 +45,7 @@ public class Controller {
                     break;
 
                 case 5:
-                    ConsultConvocatoriasEnun(modelUDyEnun, view);
+                    ConsultConvocatoriasEnun(modelExamen, view);
                     break;
 
 				case 6:
@@ -68,10 +68,18 @@ public class Controller {
 			view.visualizeDocument(path);	
 	}
 
-	private static void createUnidadDidactica(DAO model) throws ExceptionManager {
+	private static void createUnidadDidactica(DAO model, View view) throws ExceptionManager {
         UnidadDidactica unidadDidactica = new UnidadDidactica();
-        unidadDidactica.setDatos(0);
+		// Obtain and set data for the Unidad Didactica from the view.
+		unidadDidactica = view.setDatosUD();
+        // Create the Unidad Didactica in the model.
         model.createUnidadDidactica(unidadDidactica);
+
+        // Get the ID of the newly created Unidad Didactica.
+        Integer id = unidadDidactica.getId();
+
+        // Display the ID to the user.
+        view.showIdUD(id);
     }
 
     private static void createEnunciado(DAO modelUDyEnun, DAO modelExamen, View view) throws ExceptionManager {
@@ -89,10 +97,10 @@ public class Controller {
 				return;
 			}
 		}
-		Integer id_convocatoria = view.askConvocatoriaExamen();
-		if (id_convocatoria != -1)
+		String convocatoria = view.askConvocatoriaExamen();
+		if (!convocatoria.equalsIgnoreCase("0"))
 		{
-			convocatoriaExamen.setId(id_convocatoria);
+			convocatoriaExamen.setConvocatoria(convocatoria);
 			if (modelExamen.ConsultConvocatoriaExamen(convocatoriaExamen) == false)
 			{
 				view.mostrarConvocatoriaExamenNoExiste();
@@ -100,14 +108,14 @@ public class Controller {
 			}
 		}
 		enunciado.setId(modelUDyEnun.createEnunciado(enunciado));
-		if (id_convocatoria != -1)
+		if (!convocatoria.equalsIgnoreCase("0"))
 			modelExamen.updateIdUEnunciadoExamen(enunciado, convocatoriaExamen);
 		view.showIdEnunciado(enunciado.getId());
 	}
 
-    private static void createConvocatoriaExamen(DAO model) throws ExceptionManager {
+    private static void createConvocatoriaExamen(DAO model, View view) throws ExceptionManager {
         ConvocatoriaExamen convocatoriaExamen = new ConvocatoriaExamen();
-        convocatoriaExamen.setDatos(0);
+		convocatoriaExamen = view.setDatosConvocatoria();
         model.createConvocatoriaExamen(convocatoriaExamen);
     }
 

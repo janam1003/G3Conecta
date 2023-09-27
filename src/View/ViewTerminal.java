@@ -5,6 +5,7 @@ import java.util.List;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 
 import classes.ConvocatoriaExamen;
 import classes.Enunciado;
@@ -20,7 +21,10 @@ public class ViewTerminal implements View {
     public void mostrarConvocatorias(List<ConvocatoriaExamen> convocatorias) {
         System.out.println("\nLista de convocatorias:");
         for (ConvocatoriaExamen convocatoria : convocatorias) {
-            System.out.println(convocatoria.toString());
+            System.out.println("Convocatoria = " + convocatoria.getConvocatoria());
+			System.out.println("Descripcion = " + convocatoria.getDescripcion());
+			System.out.println("Fecha = " + convocatoria.getFecha().toString());
+			System.out.println("Curso = " + convocatoria.getCurso() + "\n");
         }
     }
 
@@ -86,8 +90,8 @@ public class ViewTerminal implements View {
 	}
 
 	@Override
-	public Integer askConvocatoriaExamen() {
-		return Util.leerInt("Write the Convocatoria Examen's id you want or -1 if you don't want to add it");
+	public String askConvocatoriaExamen() {
+		return Util.introducirCadena("Write the Convocatoria Examen's convocatoria you want or 0 if you don't want to add it");
 	}
 
 	@Override
@@ -125,6 +129,36 @@ public class ViewTerminal implements View {
 		} catch (IOException e) {
 			System.out.println("The file cant be opened");
 		}
+	}
+
+	@Override
+	public void showIdUD(Integer id) {
+		System.out.println("The Unidad Didactica " + id + " is successfully created.");
+	}
+
+	@Override
+	public UnidadDidactica setDatosUD() {
+		UnidadDidactica unidadDidactica = new UnidadDidactica();
+
+        unidadDidactica.setTitulo(Util.introducirCadena("Write the unidadDidactica titulo: "));
+
+        unidadDidactica.setDescripcion(Util.introducirCadena("Write the unidadDidactica description: "));
+
+        unidadDidactica.setAcronimo(Util.introducirCadena("Write the unidadDidactica acronimo: "));
+
+        unidadDidactica.setEvaluacion(Util.introducirCadena("Write the unidadDidactica evaluacion: "));
+
+        return unidadDidactica;	
+	}
+
+	@Override
+	public ConvocatoriaExamen setDatosConvocatoria() {
+		ConvocatoriaExamen convocatoriaExamen = new ConvocatoriaExamen();
+		convocatoriaExamen.setConvocatoria(Util.introducirCadena("Insert the Convocatoria: "));
+       	convocatoriaExamen.setDescripcion(Util.introducirCadena("Insert the ConvocatoriaExamen descripcion: "));
+        convocatoriaExamen.setFecha(Util.leerFechaAMD("Introudce la fecha con formato AAAA/MM/DD: \n"));
+        convocatoriaExamen.setCurso(Util.introducirCadena("Insert the curso: "));
+		return convocatoriaExamen;
 	}
 
 }

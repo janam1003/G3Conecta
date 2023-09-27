@@ -3,6 +3,7 @@ package view;
 import java.util.List;
 import classes.ConvocatoriaExamen;
 import classes.Enunciado;
+import classes.UnidadDidactica;
 
 public interface View {
 	public void mostrarConvocatorias(List<ConvocatoriaExamen> convocatorias);
@@ -13,10 +14,13 @@ public interface View {
 	public void terminarPrograma();
 	public void mostrarUnidadDidacticaNoExiste();
 	public Enunciado setDatosEnun();
-	public Integer askConvocatoriaExamen();
+	public String askConvocatoriaExamen();
 	public void mostrarConvocatoriaExamenNoExiste();
 	public long askIdEnunciado();
 	public void cantFindPath();
 	public void showIdEnunciado(long id);
 	public void visualizeDocument(String path);
+	public void showIdUD(Integer id);
+	public UnidadDidactica setDatosUD();
+	public ConvocatoriaExamen setDatosConvocatoria();
 }

@@ -28,30 +28,60 @@ public class DAOImplementationDB implements DAO {
 
     @Override
     public void createUnidadDidactica(UnidadDidactica unidadDidactica) throws ExceptionManager {
-          con = conection.openConnection();
+        ResultSet generatedKeys = null;
 
         try {
-            final String createUnidadSQL = "INSERT INTO unidad VALUES (acronimo, titulo, evaluacion, descripcion(?, ?, ?, ?)";
-            stmt = con.prepareStatement(createUnidadSQL);
+
+            // Establish a database connection
+            con = conection.openConnection();
+
+            // Define the SQL statement for inserting the unidad didactica
+            final String createUnidadSQL = "INSERT INTO unidad (acronimo, titulo, evaluacion, descripcion) VALUES (?, ?, ?, ?)";
+
+            // Create a PreparedStatement to execute the SQL query
+            stmt = con.prepareStatement(createUnidadSQL, PreparedStatement.RETURN_GENERATED_KEYS);
+
+            // Set the parameters for the PreparedStatement
             stmt.setString(1, unidadDidactica.getAcronimo());
             stmt.setString(2, unidadDidactica.getTitulo());
             stmt.setString(3, unidadDidactica.getEvaluacion());
             stmt.setString(4, unidadDidactica.getDescripcion());
-            stmt.executeUpdate();
 
-            ResultSet generatedKeys = stmt.getGeneratedKeys();
-			int idGenerado = 0;
-            if (generatedKeys.next())
-                idGenerado = generatedKeys.getInt(1);
-			unidadDidactica.setId(idGenerado);
-			
-            stmt.close();
+            // Execute the INSERT query
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected == 0) {
+
+                throw new SQLException("Creating unidad didactica failed, no rows affected.");
+            }
+
+            // Retrieve the generated keys 
+            generatedKeys = stmt.getGeneratedKeys();
+
+            if (generatedKeys.next()) {
+
+                // Get the generated ID
+                int idGenerado = generatedKeys.getInt(1);
+
+                // Set the ID in the UnidadDidactica object
+                unidadDidactica.setId(idGenerado);
+
+            } else {
+
+                // the case where no keys were generated 
+                throw new SQLException("Creating unidad didactica failed, no ID obtained.");
+            }
+
+            // Close the connection & PreparedStatement
+            conection.closeConnection(stmt, con);
 
         } catch (SQLException e) {
 
-            String error = "This UnidadDidactica already exist";
+            // database-related exceptions 
+            String error = "This Unidad Didactica already exists.";
             ExceptionManager exp = new ExceptionManager(error);
             throw exp;
+
         }
     }
 

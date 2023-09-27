@@ -39,66 +39,77 @@ public class DAOImplementationFich implements DAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
+	@Override
     public void createConvocatoriaExamen(ConvocatoriaExamen convocatoriaExamen) throws ExceptionManager {
-        
-        FileOutputStream fos = null;
 
-        MyObjectOutputStream moos = null;
-
-        ObjectOutputStream oos = null;
-
-        ConvocatoriaExamen newConvocatoriaExamen = new ConvocatoriaExamen();
-
-        convocatoriaExamen.setId(Util.calculoFichero(fichconvocatoria));
-
-        try {
-
-            if (fichconvocatoria.exists()) {
-
-                fos = new FileOutputStream(fichconvocatoria, true);
-
-                moos = new MyObjectOutputStream(fos);
-
-                //newConvocatoriaExamen = getConvocatoriaExamenData(convocatoriaExamen);
-
-                if (newConvocatoriaExamen == null) {
-
-                    moos.writeObject(convocatoriaExamen);
-
-                } else {
-
-                    ExceptionManager e = new ExceptionManager("The user exist");
-
-                    throw e;
-                }
-
-            } else {
-
-                fos = new FileOutputStream(fichconvocatoria);
-                oos = new ObjectOutputStream(fos);
+        if (fichconvocatoria.exists()) {
+             try {
+                MyObjectOutputStream oos = new MyObjectOutputStream(new FileOutputStream(fichconvocatoria, true));
+                oos.writeObject(convocatoriaExamen);
+                oos.close();
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
 
-            moos.close();
+        } else {
+           try {
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fichconvocatoria));
+                oos.writeObject(convocatoriaExamen);
+                oos.close();
 
-            oos.close();
-
-            fos.close();
-
-        } catch (FileNotFoundException ex) {
-
-            ExceptionManager e = new ExceptionManager("The file doesn't exist");
-
-            throw e;
-
-        } catch (IOException ex) {
-
-            ExceptionManager e = new ExceptionManager("Don't work");
-
-            throw e;
-
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
     }
+
+	public void updateIdUEnunciadoExamen(Enunciado enunciado, ConvocatoriaExamen convocatoriaExamen){
+		long id= enunciado.getId();
+	String convocatoria = convocatoriaExamen.getConvocatoria();
+	File fichAux = new File("auxiliar.dat");
+	int cuantos;
+	int borrar = 0;
+	if (fichconvocatoria.exists()) {
+		cuantos = Util.calculoFichero(fichconvocatoria);
+		try {
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fichconvocatoria));
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fichAux));
+			for (int i = 0; i < cuantos; i++) {
+				ConvocatoriaExamen conv = (ConvocatoriaExamen) ois.readObject();
+				if (conv.getConvocatoria().equalsIgnoreCase(convocatoria)) {
+					conv.setId_Enunciado(id);
+				}
+					oos.writeObject(conv);
+			}
+
+			oos.close();
+			ois.close();
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("Fatal error");
+		} catch (ClassNotFoundException e) {
+
+		}
+					if (fichconvocatoria.delete() == false)
+				System.out.println("No ha sido posible borrar el fichero");
+		if (fichAux.renameTo(fichconvocatoria) == false)
+				System.out.println("No a sido posible renombrar el fichero");
+
+	} else {
+		System.out.println("File not found");
+	}
+	}
 
     @Override
     public boolean ConsultUnidadDidactica(UnidadDidactica unidadDidactica) throws ExceptionManager {
@@ -116,7 +127,7 @@ public class DAOImplementationFich implements DAO {
 				ObjectInputStream ois = new ObjectInputStream(fis);
 				for (int i = 0; i < cuantos; i++) {
 					ConvocatoriaExamen convocatoriaExamen2 = (ConvocatoriaExamen) ois.readObject();
-					if (Objects.equals(convocatoriaExamen.getId(), convocatoriaExamen2.getId())) {
+					if (Objects.equals(convocatoriaExamen.getConvocatoria(), convocatoriaExamen2.getConvocatoria())) {
 						returnExist = true;
 					}
 				}
@@ -192,11 +203,6 @@ public class DAOImplementationFich implements DAO {
 	public List<Enunciado> ConsultEnunciadosUD(UnidadDidactica unidadDidactica) throws ExceptionManager {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'ConsultEnunciadosUD'");
-	}
-
-	@Override
-	public void updateIdUEnunciadoExamen(Enunciado enunciado, ConvocatoriaExamen convocatoriaExamen) {
-
 	}
 
 	@Override
