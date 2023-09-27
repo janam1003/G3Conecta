@@ -27,11 +27,15 @@ public class Main {
      * @throws ExceptionManager
      */
     public static void main(String[] args) throws ExceptionManager {
-		 DAO modelExamen = DAOFactory.getModel("Examen");
+		/* DAO modelExamen = DAOFactory.getModel("Examen");
 		 DAO modelUDyEnun = DAOFactory.getModel("UDyEnun");
 		 View view = ViewFactory.getView();
-		 Controller.startApplication(modelUDyEnun, modelExamen, view);
-                      
+		 Controller.startApplication(modelUDyEnun, modelExamen, view); */
+                
+                   DAOImplementationFich model = new  DAOImplementationFich();
+                   ConvocatoriaExamen convocatoriaExamen= new ConvocatoriaExamen();
+                   convocatoriaExamen.setDatos();
+                   model.createConvocatoriaExamen(convocatoriaExamen);
                 
                 
                 

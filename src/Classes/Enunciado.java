@@ -9,7 +9,7 @@ import utils.Util;
  */
 public class Enunciado {
 
-    private Integer id;
+    private long id;
     private boolean disponible;
     private String descripcion;
     private String ruta;
@@ -19,11 +19,11 @@ public class Enunciado {
 	public Enunciado() {
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 
