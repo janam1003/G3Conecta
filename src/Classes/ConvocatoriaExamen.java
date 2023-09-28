@@ -1,29 +1,29 @@
-package Classes;
+package classes;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-import utils.Util;
 
 /**
  *
  * @author Janam
  */
-public class ConvocatoriaExamen {
+public class ConvocatoriaExamen implements Serializable{
 
-    private Integer id;
     private String convocatoria;
     private String descripcion;
     private LocalDate fecha;
     private String curso;
+	private Long id_Enunciado;
 
-    public ConvocatoriaExamen() {
-    }
+    public Long getId_Enunciado() {
+		return id_Enunciado;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public void setId_Enunciado(Long id_Enunciado) {
+		this.id_Enunciado = id_Enunciado;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
+	public ConvocatoriaExamen() {
     }
 
     public String getConvocatoria() {
@@ -56,19 +56,6 @@ public class ConvocatoriaExamen {
 
     public void setCurso(String curso) {
         this.curso = curso;
-    }
-
-    public void setDatos(int id) {
-        this.id = id;
-        convocatoria = Util.introducirCadena("Insert the Convocatoria: ");
-        descripcion = Util.introducirCadena("Insert the ConvocatoriaExamen descripcion: ");
-        fecha = LocalDate.now(); //we set the creation date to now.
-        curso = Util.introducirCadena("Insert the curso: ");
-
-    }
-
-    public String getDatos() {
-        return "ConvocatoriaExamen{" + "id=" + id + ", convocatoria=" + convocatoria + ", descripcion=" + descripcion + ", fecha=" + fecha + ", curso=" + curso + '}';
     }
 
 }

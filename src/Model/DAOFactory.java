@@ -1,41 +1,31 @@
-package Model;
+package model;
 
 import java.util.ResourceBundle;
 
 /**
+ * Retrieves a specific implementation of the DAO (Data Access Object) based on
+ * the provided model type.
  *
- * @author Janam
+ * 2dam
  */
 public class DAOFactory {
 
-    private static DAO data;
+    public static DAO getModel(String modelType) {
+        String type = null;
+        DAO model = null;
+        ResourceBundle config = ResourceBundle.getBundle("model.config");
 
-    /**
-     * Load the data variable, if it is not previously loaded
-     *
-     * @return data Model
-     */
-    public static DAO getModel() throws UnknownModelTypeException {
-
-        switch (ResourceBundle.getBundle("G3Conecta.Model/config").getString("MODEL")) {
-
-            case "FILE":
-
-                data = new DAOImplementationFich();
-
-                break;
-
-            case "BD":
-
-                data = new DAOImplementationDB();
-
-                break;
-
-            default:
-
-                throw new UnknownModelTypeException("That type of model is not valid.");
+        if (modelType.equals("Examen")) {
+            type = config.getString("MODELEXAMEN");
+        } else if (modelType.equals("UDyEnun")) {
+            type = config.getString("MODELUDENUN");
         }
 
-        return data;
+        if (type.equals("DB")) {
+            model = new DAOImplementationDB();
+        } else if (type.equals("FILE")) {
+            model = new DAOImplementationFich();
+        }
+        return model;
     }
 }

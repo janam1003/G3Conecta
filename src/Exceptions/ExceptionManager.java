@@ -1,4 +1,4 @@
-package Exceptions; // This is the package declaration
+package exceptions; // This is the package declaration
 
 /**
  * This class represents an ExceptionManager that extends the built-in Exception
